@@ -1,0 +1,6 @@
+{
+    "device": "alsa_output.pci-0000_07_00.1.hdmi-stereo-extra1",
+    "device-description": "TU116 High Definition Audio Controller Digital Stereo (HDMI 2)",
+    "device-profile": "hdmi-output-1",
+    "preset-name": "Edifier"
+}
