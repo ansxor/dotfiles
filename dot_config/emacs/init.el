@@ -1,8 +1,8 @@
-(setq custom-file (locate-user-emacs-file "custom.el"))
-(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
-
 (setq secrets-file (locate-user-emacs-file "secrets.el"))
 (load secrets-file :no-error-if-file-is-missing)
+
+(setq custom-file (locate-user-emacs-file "custom.el"))
+(add-hook 'elpaca-after-init-hook #'(lambda () (load custom-file :no-error-if-file-is-missing)))
 
 (defvar elpaca-installer-version 0.8)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
@@ -51,7 +51,17 @@
                (display-buffer-no-window)
                (allow-no-window . t)))
 
-(setq initial-scratch-message ";; hiya answer owo")
+;; (setq initial-scratch-message ";; hiya answer owo")
+
+(defun ywy/display-startup-time ()
+  (setq initial-scratch-message
+        (concat ";; hiya answer !\n"
+                (format ";; Emacs loaded in %.2f seconds with %d garbage collections."
+                        (float-time
+                         (time-subtract after-init-time before-init-time))
+                        gcs-done))))
+
+(add-hook 'elpaca-after-init-hook #'ywy/display-startup-time)
 
 (setq emacs-backups-directory "~/.local/share/emacs/backups")
 (setq emacs-saves-directory "~/.local/share/emacs/saves")
@@ -108,12 +118,6 @@ The DWIM behaviour of this command is as follows:
 
 (add-hook 'org-mode-hook 'visual-line-mode)
 
-(custom-set-faces
- '(org-document-title ((t (:inherit outline-1 :height 1.6))))
- '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.2)))))
-
 (use-package unicode-fonts
   :ensure t
   :config
@@ -124,8 +128,7 @@ The DWIM behaviour of this command is as follows:
   :hook (after-init . global-emojify-mode))
 
 (use-package color-theme-modern
-  :ensure t
-  :config (load-theme 'high-contrast :no-confirm-loading))
+  :ensure t)
 
 (use-package moe-theme
   :ensure t)
@@ -402,7 +405,7 @@ The DWIM behaviour of this command is as follows:
 
 (use-package aggressive-indent
   :ensure t
-  :hook (emacs-lisp . aggressive-indent-mode))
+  :hook (emacs-lisp-mode . aggressive-indent-mode))
 
 (add-hook 'org-mode-hook
           #'(lambda nil
@@ -412,6 +415,7 @@ The DWIM behaviour of this command is as follows:
                 (set-window-buffer nil (current-buffer)))))
 
 (use-package treemacs
+  :ensure t
   :config
   (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
