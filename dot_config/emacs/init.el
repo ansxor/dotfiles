@@ -51,8 +51,6 @@
                (display-buffer-no-window)
                (allow-no-window . t)))
 
-;; (setq initial-scratch-message ";; hiya answer owo")
-
 (defun ywy/display-startup-time ()
   (setq initial-scratch-message
         (concat ";; hiya answer !\n"
@@ -105,7 +103,7 @@ The DWIM behaviour of this command is as follows:
 (define-key global-map (kbd "C-g") #'prot/keyboard-quit-dwim)
 
 (let ((mono-spaced-font "Droid Sans Mono")
-      (proportionately-spaced-font "FreeSerif"))
+      (proportionately-spaced-font "Bookerly"))
   (set-face-attribute 'default nil :family mono-spaced-font :height 100)
   (set-face-attribute 'fixed-pitch nil :family mono-spaced-font :height 1.0)
   (set-face-attribute 'variable-pitch nil :family proportionately-spaced-font :height 1.2))
@@ -132,6 +130,16 @@ The DWIM behaviour of this command is as follows:
 
 (use-package moe-theme
   :ensure t)
+
+(use-package standard-themes
+  :ensure t)
+
+(use-package auto-dark
+  :ensure t
+  :config
+  (auto-dark-mode)
+  :custom
+  (auto-dark-themes '((standard-dark) (high-contrast))))
 
 (use-package nerd-icons
   :ensure t)
@@ -373,6 +381,7 @@ The DWIM behaviour of this command is as follows:
   :ensure t)
 
 (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+(add-hook 'sly-mrepl-mode-hook 'electric-pair-local-mode)
 
 (use-package prism
   :ensure t
@@ -454,3 +463,17 @@ The DWIM behaviour of this command is as follows:
 
 (use-package meson-mode
   :ensure t)
+
+(use-package olivetti
+  :ensure t
+  :config
+  (defun answer/read-text ()
+    "Format text buffers to become easier to read."
+    (interactive)
+    (read-only-mode 0)
+    (let ((fill-column 10000))
+      (fill-individual-paragraphs (point-min) (point-max)))
+    (setq-local fill-column 80)
+    (olivetti-mode 1)))
+
+
