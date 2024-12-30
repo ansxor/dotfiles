@@ -1,5 +1,5 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
-(load custom-file :no-error-if-file-is-missing)
+(add-hook 'elpaca-after-init-hook (lambda () (load custom-file 'noerror)))
 
 (setq secrets-file (locate-user-emacs-file "secrets.el"))
 (load secrets-file :no-error-if-file-is-missing)
@@ -126,6 +126,9 @@ The DWIM behaviour of this command is as follows:
 (use-package color-theme-modern
   :ensure t
   :config (load-theme 'high-contrast :no-confirm-loading))
+
+(use-package moe-theme
+  :ensure t)
 
 (use-package nerd-icons
   :ensure t)
@@ -444,3 +447,6 @@ The DWIM behaviour of this command is as follows:
   :demand t
   :commands (atomic-chrome-start-server)
   :config (atomic-chrome-start-server))
+
+(use-package meson-mode
+  :ensure t)
