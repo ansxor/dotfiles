@@ -2,7 +2,7 @@
 (load secrets-file :no-error-if-file-is-missing)
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
-(add-hook 'elpaca-after-init-hook #'(lambda () (load custom-file :no-error-if-file-is-missing)))
+(load custom-file :no-error-if-file-is-missing))
 
 (defvar elpaca-installer-version 0.8)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
